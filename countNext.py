@@ -6,6 +6,8 @@ def printMessage(message):
 
 
 def getNextOrbsNum():
+    if readFile.getWorldPlusNum() is None:
+        return
     ngPlusNum = int(readFile.getWorldPlusNum())
     orbsGetNow = readFile.getOrbsNum()
 

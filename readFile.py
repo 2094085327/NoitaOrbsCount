@@ -1,3 +1,5 @@
+import os
+
 import config
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
@@ -19,7 +21,12 @@ def decryption(data):
 
 # 读取session加密文件
 def readSalakieli():
-    with open(config.save00Path + "\\save00\\session_numbers.salakieli", "rb") as file:
+    file_path = config.save00Path + "\\save00\\session_numbers.salakieli"
+    if not os.path.exists(file_path):
+        print(f"文件 {file_path} 不存在，请先开始新游戏")
+        return
+
+    with open(file_path, "rb") as file:
         data = file.read()
         decryption_content = decryption(data)
         return decryption_content
@@ -27,6 +34,8 @@ def readSalakieli():
 
 def getWorldPlusNum():
     # 获取根元素
+    if readSalakieli() is None:
+        return None
     root = Et.fromstring(readSalakieli())
 
     # 找到NEW_GAME_PLUS_COUNT获取这是第几个新世间
